@@ -1,0 +1,13 @@
+{
+  "theme": "DARK",
+  "encoding": "utf-8",
+  "protocol": "HTTPS",
+  "timelineEnabled": true,
+  "offlineMode": true,
+  "thumbnailForBase64": true,
+  "documentTitle": "NTGApps Automation Report",
+  "reportName": "NTGApps Automation Report",
+  "timeStampFormat": "MMM dd, yyyy HH:mm:ss a",
+  "js": "",
+  "css": ""
+}

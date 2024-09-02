@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"><suite name="All Test Suite"><test verbose="2" preserve-order="true" name="E:/smart2go-framework-automation-test"><classes><class name="Tests.ExcelTest"><methods><include name="testWithExcelData"/></methods></class><class name="Tests.Login"><methods><include name="loginUser"/></methods></class><class name="Tests.TrackingRequest"><methods><include name="createRequestFThhReq"/><include name="verifyRequestDisplayedINDesignEng"/></methods></class></classes></test></suite>

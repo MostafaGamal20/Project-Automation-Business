@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test name="Technician_Chrome">
+        <parameter name="browserName" value="chrome"></parameter>
+        <classes>
+            <class name="Tests.Login">
+                <methods>
+                    <include name="addMaterials"/>
+                    <include name=""/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+

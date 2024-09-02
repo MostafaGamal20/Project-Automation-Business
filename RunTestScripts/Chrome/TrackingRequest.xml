@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test name="TrackingRequest_Chrome">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="Tests.TrackingRequest">
+                <methods>
+                    <include name="create_Request_FThhReq"/>
+                    <include name="verify_Request_Displayed_In_DM"/>
+                    <include name="verify_Request_Displayed_In_Technician"/>
+                    <include name="verify_Request_Displayed_In_No"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+
