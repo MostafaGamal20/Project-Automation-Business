@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import java.util.Random;
 import java.util.logging.Logger;
 
+
 public class TrackingRequest extends TestBase {
     private static Logger log = Logger.getLogger(PageBase.class.getName());
     TrackingRequest_Page requestObject;
@@ -14,7 +15,7 @@ public class TrackingRequest extends TestBase {
     Login_Page Login;
     int Num = 100;
     Random rand = new Random();
-    static String RequestId;
+    String RequestId;
     String nameISOWDow = "ISOW-DWO" + rand.nextInt(Num);
     String nameFDTCLLI = "FDTCLLI" + rand.nextInt(Num);
     protected static String usernameReq = LoadProperties.properties.getProperty("Username");
@@ -31,8 +32,14 @@ public class TrackingRequest extends TestBase {
     @Test(priority = 1)
     public void create_Request_FThhReq() throws InterruptedException {
         Login = new Login_Page(driver);
+        if (Login.isLoginElementPresent(Instance_URL)) {
+            System.out.println("Login page is already open.Skipping logOut().");
+        } else {
+            // Perform logout if login page is not displayed
+            Login.logOut();
+        }
         Login.userLogin(usernameReq, passwordReq);
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         boolean isContainsLogin = Login.verifyNavigatedToLogin("pages", 15);
         if (isContainsLogin) {
             Assert.assertTrue(true);
@@ -54,9 +61,9 @@ public class TrackingRequest extends TestBase {
             Assert.assertEquals(actualMessage, "Your request has been submitted successfully");
             requestObject.ClickOnCloseDialog();
             if(actualMessage.equalsIgnoreCase(actualMessage)){
-                System.out.println("The Request Task is Accept Successfully.");
+                System.out.println("The Request Task is added Successfully.");
             }else {
-                System.out.println("The Request Task is Reject.");
+                System.out.println("The Request Task is not Added.");
             }
         } else {
             Assert.assertTrue(false, "Failed to Login ");
@@ -68,7 +75,12 @@ public class TrackingRequest extends TestBase {
     @Test(priority = 2)
     public void verify_Request_Displayed_In_DM() throws InterruptedException {
         Login = new Login_Page(driver);
-        Login.logOut();
+        if (Login.isLoginElementPresent(Instance_URL)) {
+            System.out.println("Login page is already open.Skipping logOut().");
+        } else {
+            // Perform logout if login page is not displayed
+            Login.logOut();
+        }
         Login.userLogin(usernameDM, passwordDM);
         boolean isContainsLogin = Login.verifyNavigatedToLogin("pages", 15);
         if (isContainsLogin) {
@@ -107,7 +119,12 @@ public class TrackingRequest extends TestBase {
     @Test (priority=3)
     public void verify_Request_Displayed_In_Technician() throws InterruptedException {
         Login = new Login_Page(driver);
-        Login.logOut();
+        if (Login.isLoginElementPresent(Instance_URL)) {
+            System.out.println("Login page is already open.Skipping logOut().");
+        } else {
+            // Perform logout if login page is not displayed
+            Login.logOut();
+        }
         //   Login.verifyNavigatedToLoginOut("navigateToLogin=true", 15);
         Login.userLogin(usernameTC, PasswordTC);
         boolean isContainsLogin = Login.verifyNavigatedToLogin("pages", 15);
@@ -156,20 +173,20 @@ public class TrackingRequest extends TestBase {
     @Test (priority=4)
     public void verify_Request_Displayed_In_No() throws InterruptedException {
         Login = new Login_Page(driver);
-        Login.logOut();
+        if (Login.isLoginElementPresent(Instance_URL)) {
+            System.out.println("Login page is already open.Skipping logOut().");
+        } else {
+            // Perform logout if login page is not displayed
+            Login.logOut();
+        }
         //   Login.verifyNavigatedToLoginOut("navigateToLogin=true", 15);
         Login.userLogin(usernameNo,PasswordNO);
         FTTHDashBoardPage = new dashboard_Page(driver);
         Thread.sleep(3000);
-        try {
-            FTTHDashBoardPage.openMenu();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        FTTHDashBoardPage.openMenu();
         FTTHDashBoardPage.clickOnParentMenu("Network Operations workspace");
         FTTHDashBoardPage.clickOnParentMenu("  Network Operations workspace");
         requestObject = new TrackingRequest_Page(driver);
-        Thread.sleep(3000);
         // Verify Task Displayed in the WorkSpace (Grid Chart)
         boolean result =requestObject.CheckRowAndRefresh(RequestId);// Replace with the actual row number or identifier
         if (result) {
@@ -177,7 +194,9 @@ public class TrackingRequest extends TestBase {
         } else {
             System.out.println("The Request Task is Not added.");
         }
-        requestObject.proceedTo_ReturnedTo(" Accept "); // proceed to Network Operation
+        requestObject.proceedTo_ReturnedTo(" Accept ");
+        // proceed to Network Operation
+        Thread.sleep(4000);
         String actualMassage = requestObject.getMessageText();
         Assert.assertEquals(actualMassage, "Request has been accepted successfully");
         requestObject.ClickOnCloseDialog();
@@ -188,3 +207,7 @@ public class TrackingRequest extends TestBase {
         }
     }
 }
+
+
+
+// allure serve target/allure-results

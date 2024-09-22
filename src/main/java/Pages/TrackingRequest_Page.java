@@ -72,7 +72,8 @@ public class TrackingRequest_Page extends PageBase {
     }
     public void closeDialog() throws InterruptedException {
         Thread.sleep(1000);
-        By elementCloseDialogInstStage = By.cssSelector("body > div.ng-tns-c1729407856-31.p-dialog-mask.p-component-overlay.p-component-overlay-enter.p-dialog-mask-scrollblocker.ng-star-inserted > div > div.p-dialog-header.ng-tns-c1729407856-31.ng-star-inserted > div > button.p-ripple.p-element.ng-tns-c1729407856-31.p-dialog-header-icon.p-dialog-header-close.p-link.ng-star-inserted > timesicon");
+        By elementCloseDialogInstStage = By.cssSelector
+                ("body > div.ng-tns-c1729407856-32.p-dialog-mask.p-component-overlay.p-component-overlay-enter.p-dialog-mask-scrollblocker.ng-star-inserted > div > div.p-dialog-header.ng-tns-c1729407856-32.ng-star-inserted > div > button.p-ripple.p-element.ng-tns-c1729407856-32.p-dialog-header-icon.p-dialog-header-close.p-link.ng-star-inserted > timesicon");
         WebElement closeDialog = waitUntilElementToBeClickable(elementCloseDialogInstStage);
         click(closeDialog);
     }
@@ -127,7 +128,7 @@ public class TrackingRequest_Page extends PageBase {
     }
 
     public void proceedTo_ReturnedTo(String ProceedTo) {
-        WebElement Proceed = waitUntilElementToBevisible(By.xpath("//span[contains(text(), '" + ProceedTo + "')]"));
+        WebElement Proceed = waitUntilElementToBeClickable(By.xpath("//span[contains(text(), '" + ProceedTo + "')]"));
         Proceed.click();
 
     }
