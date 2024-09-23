@@ -9,6 +9,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.google.common.io.Files;
 import data.LoadProperties;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -18,7 +19,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utilities.Helper;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
 
-public class TestBase {
+public class TestBase  {
     protected static ExtentReports extentReports;
     protected static ExtentSparkReporter extentSparkReporter;
     protected static ExtentTest extentTest;
@@ -37,12 +37,12 @@ public class TestBase {
     private static Logger log = Logger.getLogger(PageBase.class.getName());
     String Instance_URL = LoadProperties.properties.getProperty("NTGapps.Instance_URL");
 
-
     @BeforeSuite
     @Parameters({"browser"})
-    public void start(Method method, @Optional("chrome") String browserName) throws IOException {
+    public WebDriver start(@Optional("chrome") String browserName) throws IOException {
         if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver.exe");
+            // System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver.exe");
+            WebDriverManager.chromedriver().setup();
             ChromeOptions ops = new ChromeOptions();
             HashMap<String, Object> chromePref = new HashMap<>();
             ops.setExperimentalOption("prefs", chromePref);
@@ -56,8 +56,8 @@ public class TestBase {
         } else if (browserName.equalsIgnoreCase("firefox")) {
             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/drivers/geckodriver.exe");
             driver = new FirefoxDriver();
-            driver.manage().window().maximize();
         }
+        return driver;
     }
 
     /* @AfterSuite
@@ -69,7 +69,7 @@ public class TestBase {
      }*/
     //Take Screenshot when test case fail and add it in the screen folder
     @AfterMethod
-    public void getResult(Method method ,ITestResult result ) throws IOException {
+    public void getResult(Method method, ITestResult result) throws IOException {
         String testName = method.getName(); // Use test method name
         String description = "Test Case " + testName;
         extentTest = extentReports.createTest(testName, description);
@@ -77,8 +77,8 @@ public class TestBase {
 
         if (result.getStatus() == ITestResult.FAILURE) {
             Helper Help = new Helper();
-            Help.captureScreenshots(driver,testName);
-            extentTest.log(Status.FAIL,result.getThrowable());
+            Help.captureScreenshots(driver, testName);
+            extentTest.log(Status.FAIL, result.getThrowable());
             log.info("=== fail Test ");
 
         } else if (result.getStatus() == ITestResult.SUCCESS) {
@@ -94,12 +94,13 @@ public class TestBase {
     public void TearDown() throws IOException {
         //to write or update test information to the reporter
         log.info("End of after suite");
-       // driver.quit();
+        // driver.quit();
         if (driver != null) {
             driver.quit();
         }
         extentReports.flush();
     }
+
     @BeforeTest
     public void startReport() {
         extentSparkReporter = new ExtentSparkReporter(System.getProperty("user.dir") + "/Reports/extentReport.html");
@@ -112,28 +113,28 @@ public class TestBase {
         extentSparkReporter.config().getOfflineMode();
     }
 
-    public static void reporter( String status,String stepDetail) {
+    public static void reporter(String status, String stepDetail) {
         //ExtentTest logger = null;
         String path;
         try {
-            path=Helper.capture(driver, currentTestCaseName+"_"+Helper.getRandomDateTime()+".jpg");
+            path = Helper.capture(driver, currentTestCaseName + "_" + Helper.getRandomDateTime() + ".jpg");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if(status.equalsIgnoreCase("PASS")) {
-            logger.pass(stepDetail,MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+        if (status.equalsIgnoreCase("PASS")) {
+            logger.pass(stepDetail, MediaEntityBuilder.createScreenCaptureFromPath(path).build());
 
         } else if (status.equalsIgnoreCase("fail")) {
-            logger.fail(stepDetail,MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+            logger.fail(stepDetail, MediaEntityBuilder.createScreenCaptureFromPath(path).build());
         } else if (status.equalsIgnoreCase("info")) {
             logger.info(stepDetail);
-        }else if (status.equalsIgnoreCase("Warning")) {
-            logger.warning (stepDetail);
+        } else if (status.equalsIgnoreCase("Warning")) {
+            logger.warning(stepDetail);
         }
     }
+
     public void captureScreenshot() {
-        try
-        {
+        try {
             System.out.println("Taking screenshot for failed assert");
             String screenshotPath = System.getProperty("user.dir") + "/Reports/Screenshots";
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -143,8 +144,7 @@ public class TestBase {
             screenshotPath = screenshotPath + File.separator + screenshotName;
             Files.copy(screenshot, new File(screenshotPath));
             extentTest.addScreenCaptureFromPath(screenshotPath);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

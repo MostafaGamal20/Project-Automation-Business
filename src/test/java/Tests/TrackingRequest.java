@@ -27,7 +27,6 @@ public class TrackingRequest extends TestBase {
     protected static String usernameDM = LoadProperties.properties.getProperty("UsernameDM");
     protected static String passwordDM = LoadProperties.properties.getProperty("PasswordDM");
 
-
     //....?? Test Case 1  Requester Create task and attach file and proceed this task the District manager.
     @Test(priority = 1)
     public void create_Request_FThhReq() throws InterruptedException {
@@ -153,7 +152,7 @@ public class TrackingRequest extends TestBase {
                     "TOOLS","Select Materials","Utility Knife",
                     "100","comment","issued");
             technicianPage = new Technician_Page(driver);
-            boolean  materialIsDisplayed =   technicianPage.verifyAddMaterials("Utility Knife");
+            boolean materialIsDisplayed = technicianPage.verifyAddMaterials("Utility Knife");
             if(materialIsDisplayed)
                 Assert.assertTrue(true, "Material is Add successfully");
             else {

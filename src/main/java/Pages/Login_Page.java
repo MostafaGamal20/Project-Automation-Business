@@ -3,6 +3,7 @@ package Pages;
 
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,8 +48,9 @@ public class Login_Page extends PageBase {
     }
 
     public void logOut() {
-        WebElement clickProfile =waitUntilElementToBeClickable(By.id("user_image"));
-        clickProfile.click();
+        WebElement userImage = driver.findElement(By.id("user_image"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", userImage);
+        userImage.click();
 
         WebElement log =waitUntilElementToBeClickable(By.id("logout"));
         log.click();

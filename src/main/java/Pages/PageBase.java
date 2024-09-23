@@ -34,7 +34,6 @@ public class PageBase {
         PageFactory.initElements(driver, this);
     }
 
-
     //sendKeys
     protected void setTextElement(WebElement TextBox, String value) {
         TextBox.sendKeys(value);

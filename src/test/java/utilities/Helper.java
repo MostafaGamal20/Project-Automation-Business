@@ -14,9 +14,8 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.logging.Logger;
 
-public class Helper {
+public class Helper extends Thread {
     private static Logger log = Logger.getLogger(PageBase.class.getName());
-
 
     // Method to take screenshot when the test cases fail
     public static void captureScreenshots(WebDriver driver, String screenshotName) {
@@ -39,6 +38,7 @@ public class Helper {
         //   log.info(genNum);
         return genNum;
     }
+
     public static String capture(WebDriver driver, String screenShotName) throws IOException {
         TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
@@ -50,7 +50,5 @@ public class Helper {
         //return dest;
         return destination.getAbsolutePath();
     }
-
 }
-
 

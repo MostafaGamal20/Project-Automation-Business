@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Parallel Test Suite" >
-    <test name="TrackingRequest_Chrome">
-        <parameter name="browser" value="chrome"></parameter>
+<suite name="All Test Suite">
+    <test name="TrackingRequest">
         <classes>
             <class name="Tests.TrackingRequest"/>
         </classes>
     </test>
 </suite>
-
 <!--parallel="classes" thread-count="10"-->
+     <!--   parallel="tests" thread-count="20"-->
