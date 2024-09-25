@@ -38,8 +38,8 @@ public class TestBase  {
     String Instance_URL = LoadProperties.properties.getProperty("NTGapps.Instance_URL");
 
     @BeforeSuite
-    @Parameters({"browser"}) //@Optional("chrome")
-    public WebDriver start(String browserName) throws IOException {
+    @Parameters({"browser"}) //
+    public WebDriver start(@Optional("chrome") String browserName) throws IOException {
         if (browserName.equalsIgnoreCase("chrome")) {
             // System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver.exe");
             WebDriverManager.chromedriver().setup();

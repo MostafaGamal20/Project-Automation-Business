@@ -1,11 +1,14 @@
 instance Stage
 NTGapps.Instance_URL=https://nfarm-pt.ntgcloud.net/#/login;navigateToLogin=true
+preprod_Instance_URL=http://10.23.98.68:8080/Smart2Go/#/login
+
 instance Test
 URLTest=https://nfarm-pt.ntgcloud.net/test/#/login;navigateToLogin=true
 --------------------------------------------------------------------
 login By FTTH Requester
 Username=ftthreq
 Password=P@ssw0rd
+
 --------------------------------------------------------------------
 Login By DesignEng
 UsernameDesign=DesignEng
