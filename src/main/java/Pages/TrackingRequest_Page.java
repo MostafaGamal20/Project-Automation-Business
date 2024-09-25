@@ -234,13 +234,70 @@ public class TrackingRequest_Page extends PageBase {
                     } catch (Exception ex) {
                         System.out.println("Refresh button not found, retrying...");
                         // Optional: Add a short sleep to avoid hammering the server
-                        Thread.sleep(1000); // Adjust sleep time as necessary
+                        Thread.sleep(500); // Adjust sleep time as necessary
                     }
                 }
                 // Optional: Wait for some time before the next iteration
-                Thread.sleep(1000); // Adjust sleep time as necessary
+                Thread.sleep(500); // Adjust sleep time as necessary
             }
         }
+        return isRowDisplayed;
+    }
+
+    public boolean CheckRowAndRefresh1(String number) throws InterruptedException {
+        boolean isRowDisplayed = false;
+        int retryCount = 0;
+        int maxRetries = 15;  // Set the maximum number of retries here
+        int refreshRetryCount = 0;
+        int maxRefreshRetries = 10;  // Set the maximum retries for refresh button
+
+        while (!isRowDisplayed && retryCount < maxRetries) {
+            try {
+                // Attempt to find the row
+                WebElement row = waitUntilElementToBevisible(By.xpath("//tr[td='" + number + "']"));
+                if (row != null && row.isDisplayed()) {
+                    isRowDisplayed = true;
+                    System.out.println("Row is displayed.");
+                    waitUntilElementToBeClickable(By.xpath("(//tr[contains(., '" + number + "')]//button[text()=' Open '])[1]")).click();
+                    break;  // Exit the loop when the row is found and clicked
+                }
+            } catch (Exception e) {
+                System.out.println("Row not found, trying to refresh...");
+                // Reset refresh retry count after each attempt to find the row
+                refreshRetryCount = 0;
+                boolean isRefreshButtonDisplayed = false;
+
+                // Loop to find and click refresh button with retries
+                while (!isRefreshButtonDisplayed && refreshRetryCount < maxRefreshRetries) {
+                    try {
+                        WebElement refreshButton = driver.findElement(Refresh);
+                        if (refreshButton.isDisplayed()) {
+                            isRefreshButtonDisplayed = true;
+                            refreshButton.click();
+                            System.out.println("Clicked refresh button.");
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("Refresh button not found, retrying...");
+                        Thread.sleep(50); // Sleep before retrying to find the refresh button
+                    }
+                    refreshRetryCount++;
+                }
+
+                if (refreshRetryCount >= maxRefreshRetries) {
+                    System.out.println("Max refresh attempts reached. Exiting...");
+                    break;  // Exit if refresh retries exceeded
+                }
+
+                // Wait before the next attempt to find the row
+                Thread.sleep(50);
+            }
+            retryCount++;
+        }
+
+        if (retryCount >= maxRetries) {
+            System.out.println("Max retry attempts reached. Exiting...");
+        }
+
         return isRowDisplayed;
     }
 }

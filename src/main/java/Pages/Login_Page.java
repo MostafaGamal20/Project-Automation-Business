@@ -49,8 +49,8 @@ public class Login_Page extends PageBase {
 
     public void logOut() {
         WebElement userImage = driver.findElement(By.id("user_image"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", userImage);
-        userImage.click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", userImage);
 
         WebElement log =waitUntilElementToBeClickable(By.id("logout"));
         log.click();

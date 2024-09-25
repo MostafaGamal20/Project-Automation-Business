@@ -37,7 +37,7 @@ public class TrackingRequest extends TestBase {
             // Perform logout if login page is not displayed
             Login.logOut();
         }
-        Login.userLogin(usernameReq, passwordReq);
+        Login.userLogin(usernameReq,passwordReq);
         Thread.sleep(2000);
         boolean isContainsLogin = Login.verifyNavigatedToLogin("pages", 15);
         if (isContainsLogin) {
@@ -187,13 +187,13 @@ public class TrackingRequest extends TestBase {
         FTTHDashBoardPage.clickOnParentMenu("  Network Operations workspace");
         requestObject = new TrackingRequest_Page(driver);
         // Verify Task Displayed in the WorkSpace (Grid Chart)
-        boolean result =requestObject.CheckRowAndRefresh(RequestId);// Replace with the actual row number or identifier
+        boolean result =requestObject.CheckRowAndRefresh1("RequestId");// Replace with the actual row number or identifier
         if (result) {
             System.out.println("The Request Task is added Successfully.");
         } else {
             System.out.println("The Request Task is Not added.");
         }
-        requestObject.proceedTo_ReturnedTo(" Accept ");
+        requestObject.proceedTo_ReturnedTo(" Accept "); // " Reject "
         // proceed to Network Operation
         Thread.sleep(4000);
         String actualMassage = requestObject.getMessageText();
